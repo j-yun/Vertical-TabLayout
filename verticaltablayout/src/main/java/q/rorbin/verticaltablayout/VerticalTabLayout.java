@@ -265,7 +265,7 @@ public class VerticalTabLayout extends ScrollView {
         mTabStrip.post(new Runnable() {
             @Override
             public void run() {
-                mTabStrip.updataIndicator();
+                mTabStrip.updateIndicator();
             }
         });
     }
@@ -289,7 +289,7 @@ public class VerticalTabLayout extends ScrollView {
         mTabStrip.post(new Runnable() {
             @Override
             public void run() {
-                mTabStrip.updataIndicator();
+                mTabStrip.updateIndicator();
             }
         });
     }
@@ -313,7 +313,7 @@ public class VerticalTabLayout extends ScrollView {
         mTabStrip.post(new Runnable() {
             @Override
             public void run() {
-                mTabStrip.updataIndicator();
+                mTabStrip.updateIndicator();
             }
         });
     }
@@ -533,6 +533,8 @@ public class VerticalTabLayout extends ScrollView {
         private void calcIndicatorY(float offset) {
             int index = (int) Math.floor(offset);
             View childView = getChildAt(index);
+            if(childView == null) return;
+
             if (Math.floor(offset) != getChildCount() - 1 && Math.ceil(offset) != 0) {
                 View nextView = getChildAt(index + 1);
                 mIndicatorTopY = childView.getTop() + (nextView.getTop() - childView.getTop()) * (offset - index);
@@ -544,7 +546,7 @@ public class VerticalTabLayout extends ScrollView {
             }
         }
 
-        protected void updataIndicator() {
+        protected void updateIndicator() {
             moveIndicatorWithAnimator(getSelectedTabPosition());
         }
 
