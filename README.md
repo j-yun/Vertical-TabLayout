@@ -4,7 +4,7 @@
 
 
 ## how to use:
-###1. gradle
+### gradle
 #### project level
     allprojects {
         repositories {
@@ -15,10 +15,10 @@
 
 #### app level
     dependencies {
-	        implementation 'com.github.j-yun:Vertical-TabLayout:Tag'
+	        implementation 'com.github.j-yun:Vertical-TabLayout:1.0.2'
 	}
 
-###2. xml
+### xml
 
     <q.rorbin.verticaltablayout.VerticalTabLayout
         android:id="@+id/tablayout"
@@ -30,7 +30,7 @@
         app:tab_height="50dp"
         app:tab_mode="scrollable" />
 
-###3. Custom layout properties
+### Custom layout properties
 
 xml | code
 ---|---|---
@@ -42,7 +42,7 @@ app:tab_mode | setTabMode
 app:tab_height | setTabHeight
 app:tab_margin | setTabMargin
 
-###4. Implementation
+### Implementation
 - See the demo project for detailed usage.
 
 - Fully customized
@@ -81,7 +81,7 @@ app:tab_margin | setTabMargin
     `tablayout.setupWithViewPager(viewpager);`
 
 
-###5. License
+## License
     Copyright 2016, RorbinQiu
 
     Licensed under the Apache License, Version 2.0 (the "License");
