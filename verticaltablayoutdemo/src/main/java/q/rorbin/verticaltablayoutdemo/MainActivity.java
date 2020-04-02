@@ -1,14 +1,19 @@
 package q.rorbin.verticaltablayoutdemo;
 
+import android.annotation.SuppressLint;
+import android.content.Context;
 import android.graphics.Color;
-import androidx.core.view.PagerAdapter;
-import androidx.core.view.ViewPager;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.viewpager.widget.PagerAdapter;
+import androidx.viewpager.widget.ViewPager;
 
 import java.util.ArrayList;
 import java.util.Collections;
@@ -16,7 +21,6 @@ import java.util.List;
 
 import q.rorbin.verticaltablayout.TabAdapter;
 import q.rorbin.verticaltablayout.VerticalTabLayout;
-import q.rorbin.verticaltablayout.widget.QTabView;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -32,29 +36,35 @@ public class MainActivity extends AppCompatActivity {
 
     private void initTab0() {
         VerticalTabLayout tablayout = (VerticalTabLayout) findViewById(R.id.tablayout0);
-        tablayout.setTabAdapter(new MyTabAdapter());
+        tablayout.setTabAdapter(new MyTabAdapter(this));
     }
 
     private void initTab1() {
         VerticalTabLayout tablayout = (VerticalTabLayout) findViewById(R.id.tablayout1);
-        tablayout.setTabAdapter(new MyTabAdapter());
+        tablayout.setTabAdapter(new MyTabAdapter(this));
     }
 
     private void initTab2() {
         VerticalTabLayout tablayout = (VerticalTabLayout) findViewById(R.id.tablayout2);
-        tablayout.setTabAdapter(new MyTabAdapter());
+        tablayout.setTabAdapter(new MyTabAdapter(this));
     }
 
     private void initTab3() {
         VerticalTabLayout tablayout = (VerticalTabLayout) findViewById(R.id.tablayout);
         ViewPager viewpager = (ViewPager) findViewById(R.id.viewpager);
-        viewpager.setAdapter(new MyPagerAdapter());
+        viewpager.setAdapter(new MyPagerAdapter(this));
         tablayout.setupWithViewPager(viewpager);
     }
 
     class MyTabAdapter implements TabAdapter {
 
         List<String> titles;
+        Context context;
+
+        MyTabAdapter(Context context){
+            this.context = context;
+        }
+
 
         {
             titles = new ArrayList<String>();
@@ -67,35 +77,25 @@ public class MainActivity extends AppCompatActivity {
             return 14;
         }
 
+        @SuppressLint("InflateParams")
         @Override
-        public int getBadge(int position) {
-            if (position == 5) return position;
-            return 0;
-        }
-
-        @Override
-        public QTabView.TabIcon getIcon(int position) {
-            return null;
-        }
-
-        @Override
-        public QTabView.TabTitle getTitle(int position) {
-            return new QTabView.TabTitle.Builder(MainActivity.this)
-                    .setContent(titles.get(position))
-                    .setTextColor(Color.WHITE, Color.WHITE)
-                    .build();
-        }
-
-        @Override
-        public int getBackground(int position) {
-            return 0;
+        public View getTabItemView(int position) {
+            LayoutInflater li = LayoutInflater.from(this.context);
+            View v = li.inflate(R.layout.view_tab_item, null);
+            TextView titleTv = v.findViewById(R.id.titleTv);
+            titleTv.setText(titles.get(position));
+            return v;
         }
     }
 
     class MyPagerAdapter extends PagerAdapter implements TabAdapter {
         List<MenuBean> menus;
 
-        public MyPagerAdapter() {
+        Context context;
+
+        public MyPagerAdapter(Context context) {
+            this.context = context;
+
             menus = new ArrayList<>();
             Collections.addAll(menus, new MenuBean(R.drawable.man_01_pressed, R.drawable.man_01_none, "汇总")
                     , new MenuBean(R.drawable.man_02_pressed, R.drawable.man_02_none, "图表")
@@ -108,34 +108,21 @@ public class MainActivity extends AppCompatActivity {
             return 4;
         }
 
+        @SuppressLint("InflateParams")
         @Override
-        public int getBadge(int position) {
-            return position;
-        }
+        public View getTabItemView(int position) {
+            LayoutInflater li = LayoutInflater.from(this.context);
+            View v = li.inflate(R.layout.view_tab_item, null);
+            TextView titleTv = v.findViewById(R.id.titleTv);
+            ImageView imgView = v.findViewById(R.id.imgView);
 
-        @Override
-        public QTabView.TabIcon getIcon(int position) {
             MenuBean menu = menus.get(position);
-            return new QTabView.TabIcon.Builder()
-                    .setIcon(menu.mSelectIcon, menu.mNormalIcon)
-                    .setIconGravity(Gravity.LEFT)
-                    .setIconSize(80, 80)
-                    .build();
+            titleTv.setText(menu.mTitle);
+            imgView.setImageResource(menu.mNormalIcon);
+
+            return v;
         }
 
-        @Override
-        public QTabView.TabTitle getTitle(int position) {
-            MenuBean menu = menus.get(position);
-            return new QTabView.TabTitle.Builder(MainActivity.this)
-                    .setContent(menu.mTitle)
-                    .setTextColor(0xFF36BC9B, 0xFF757575)
-                    .build();
-        }
-
-        @Override
-        public int getBackground(int position) {
-            return 0;
-        }
 
         @Override
         public boolean isViewFromObject(View view, Object object) {
