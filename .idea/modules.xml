@@ -2,6 +2,9 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
+      <module fileurl="file://$PROJECT_DIR$/Vertical-TabLayout.iml" filepath="$PROJECT_DIR$/Vertical-TabLayout.iml" group="Vertical-TabLayout" />
+      <module fileurl="file://$PROJECT_DIR$/verticaltablayout/Vertical-TabLayout-verticaltablayout.iml" filepath="$PROJECT_DIR$/verticaltablayout/Vertical-TabLayout-verticaltablayout.iml" group="Vertical-TabLayout/verticaltablayout" />
+      <module fileurl="file://$PROJECT_DIR$/verticaltablayoutdemo/Vertical-TabLayout-verticaltablayoutdemo.iml" filepath="$PROJECT_DIR$/verticaltablayoutdemo/Vertical-TabLayout-verticaltablayoutdemo.iml" group="Vertical-TabLayout/verticaltablayoutdemo" />
       <module fileurl="file://$PROJECT_DIR$/VerticalTabLayout.iml" filepath="$PROJECT_DIR$/VerticalTabLayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/verticaltablayout/verticaltablayout.iml" filepath="$PROJECT_DIR$/verticaltablayout/verticaltablayout.iml" />
       <module fileurl="file://$PROJECT_DIR$/verticaltablayoutdemo/verticaltablayoutdemo.iml" filepath="$PROJECT_DIR$/verticaltablayoutdemo/verticaltablayoutdemo.iml" />

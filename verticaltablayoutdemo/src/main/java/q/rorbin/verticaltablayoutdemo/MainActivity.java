@@ -1,8 +1,8 @@
 package q.rorbin.verticaltablayoutdemo;
 
 import android.graphics.Color;
-import android.support.v4.view.PagerAdapter;
-import android.support.v4.view.ViewPager;
+import androidx.core.view.PagerAdapter;
+import androidx.core.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Gravity;
