@@ -52,6 +52,7 @@ public class VerticalTabLayout extends ScrollView {
     private TabAdapter mTabAdapter;
 
     private List<OnTabSelectedListener> mTabSelectedListeners;
+    private OnTabSelectedListener mInternalTabSelectedListener;
     private OnTabPageChangeListener mTabPageChangeListener;
     private DataSetObserver mPagerAdapterObserver;
 
@@ -69,6 +70,7 @@ public class VerticalTabLayout extends ScrollView {
         super(context, attrs, defStyleAttr);
         mContext = context;
         mTabSelectedListeners = new ArrayList<>();
+        mInternalTabSelectedListener = null;
         TypedArray typedArray = context.obtainStyledAttributes(attrs, R.styleable.VerticalTabLayout);
         mColorIndicator = typedArray.getColor(R.styleable.VerticalTabLayout_indicator_color,
                 context.getResources().getColor(R.color.colorAccent));
@@ -362,6 +364,9 @@ public class VerticalTabLayout extends ScrollView {
     public void removeOnTabSelectedListener(OnTabSelectedListener listener) {
         if (listener != null) {
             mTabSelectedListeners.remove(listener);
+            if(listener.equals(mInternalTabSelectedListener)){
+                mInternalTabSelectedListener = null;
+            }
         }
     }
 
@@ -400,27 +405,9 @@ public class VerticalTabLayout extends ScrollView {
     }
 
     public void setupWithViewPager(@Nullable final ViewPager viewPager) {
-        this.setupWithViewPager(viewPager, true, true);
-    }
-    public void setupWithViewPager(@Nullable final ViewPager viewPager, boolean autoHandleTabSelection, final boolean animated) {
-        if (mViewPager != null && mTabPageChangeListener != null) {
-            mViewPager.removeOnPageChangeListener(mTabPageChangeListener);
-        }
-
-        if (viewPager != null) {
-            final PagerAdapter adapter = viewPager.getAdapter();
-            if (adapter == null) {
-                throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
-            }
-
-            mViewPager = viewPager;
-
-            if (mTabPageChangeListener == null) {
-                mTabPageChangeListener = new OnTabPageChangeListener();
-            }
-            viewPager.addOnPageChangeListener(mTabPageChangeListener);
-
-            addOnTabSelectedListener(new OnTabSelectedListener() {
+        OnTabSelectedListener internalListener = null;
+        if(viewPager != null){
+            internalListener = new OnTabSelectedListener() {
                 @Override
                 public void onTabSelected(View tab, int position) {
                     if (mViewPager != null && mViewPager.getAdapter().getCount() >= position) {
@@ -431,8 +418,32 @@ public class VerticalTabLayout extends ScrollView {
                 @Override
                 public void onTabReselected(View tab, int position) {
                 }
-            });
+            };
+        }
+        this.setupWithViewPager(viewPager, internalListener);
+    }
 
+    public void setupWithViewPager(@Nullable final ViewPager viewPager, @Nullable OnTabSelectedListener tabSelectedListener) {
+        if (mViewPager != null && mTabPageChangeListener != null) {
+            mViewPager.removeOnPageChangeListener(mTabPageChangeListener);
+        }
+
+        removeOnTabSelectedListener(mInternalTabSelectedListener);
+        if(tabSelectedListener != null){
+            addOnTabSelectedListener(tabSelectedListener);
+        }
+
+        if (viewPager != null) {
+            final PagerAdapter adapter = viewPager.getAdapter();
+            if (adapter == null) {
+                throw new IllegalArgumentException("ViewPager does not have a PagerAdapter set");
+            }
+
+            mViewPager = viewPager;
+            if (mTabPageChangeListener == null) {
+                mTabPageChangeListener = new OnTabPageChangeListener();
+            }
+            viewPager.addOnPageChangeListener(mTabPageChangeListener);
             setPagerAdapter(adapter, true);
         } else {
             mViewPager = null;
