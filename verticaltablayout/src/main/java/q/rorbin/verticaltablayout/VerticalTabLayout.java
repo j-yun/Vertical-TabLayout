@@ -46,6 +46,7 @@ public class VerticalTabLayout extends ScrollView {
 
     public static int TAB_MODE_FIXED = 10;
     public static int TAB_MODE_SCROLLABLE = 11;
+    public static int TAB_MODE_SCROLLABLE_WEAK = 12;
 
     private ViewPager mViewPager;
     private PagerAdapter mPagerAdapter;
@@ -154,6 +155,8 @@ public class VerticalTabLayout extends ScrollView {
             params.weight = 0f;
             params.setMargins(0, mTabMargin, 0, 0);
             setFillViewport(false);
+        }else{
+            setFillViewport(false);
         }
     }
 
@@ -249,8 +252,8 @@ public class VerticalTabLayout extends ScrollView {
     }
 
     public void setTabMode(int mode) {
-        if (mode != TAB_MODE_FIXED && mode != TAB_MODE_SCROLLABLE) {
-            throw new IllegalStateException("only support TAB_MODE_FIXED or TAB_MODE_SCROLLABLE");
+        if (mode != TAB_MODE_FIXED && mode != TAB_MODE_SCROLLABLE && mode != TAB_MODE_SCROLLABLE_WEAK) {
+            throw new IllegalStateException("only support TAB_MODE_FIXED or TAB_MODE_SCROLLABLE or TAB_MODE_SCROLLABLE_WEAK");
         }
         if (mode == mTabMode) return;
         mTabMode = mode;
@@ -280,7 +283,7 @@ public class VerticalTabLayout extends ScrollView {
     public void setTabMargin(int margin) {
         if (margin == mTabMargin) return;
         mTabMargin = margin;
-        if (mTabMode == TAB_MODE_FIXED) return;
+        if (mTabMode != TAB_MODE_SCROLLABLE) return;
         for (int i = 0; i < mTabStrip.getChildCount(); i++) {
             View view = mTabStrip.getChildAt(i);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();
@@ -304,7 +307,7 @@ public class VerticalTabLayout extends ScrollView {
     public void setTabHeight(int height) {
         if (height == mTabHeight) return;
         mTabHeight = height;
-        if (mTabMode == TAB_MODE_FIXED) return;
+        if (mTabMode != TAB_MODE_SCROLLABLE) return;
         for (int i = 0; i < mTabStrip.getChildCount(); i++) {
             View view = mTabStrip.getChildAt(i);
             LinearLayout.LayoutParams params = (LinearLayout.LayoutParams) view.getLayoutParams();

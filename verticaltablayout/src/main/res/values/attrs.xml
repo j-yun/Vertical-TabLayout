@@ -13,6 +13,7 @@
         <attr name="tab_mode" format="enum">
             <enum name="fixed" value="10" />
             <enum name="scrollable" value="11" />
+            <enum name="scrollable_weak" value="12" />
         </attr>
         <attr name="tab_height" format="dimension">
         </attr>

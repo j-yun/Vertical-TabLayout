@@ -36,6 +36,8 @@
             app:tab_height="60dp"
             app:tab_mode="scrollable" />
 
+<!--        app:tab_height="60dp"-->
+
         <q.rorbin.verticaltablayout.VerticalTabLayout
             android:id="@+id/tablayout2"
             android:layout_width="90dp"
@@ -46,8 +48,9 @@
             app:indicator_corners="100dp"
             android:paddingLeft="10dp"
             android:paddingRight="10dp"
-            app:tab_margin="20dp"
-            app:tab_mode="scrollable" />
+            app:tab_height="60dp"
+            app:tab_mode="scrollable_weak" />
+<!--        app:tab_margin="20dp"-->
 
         <q.rorbin.verticaltablayout.VerticalTabLayout
             android:id="@+id/tablayout"
